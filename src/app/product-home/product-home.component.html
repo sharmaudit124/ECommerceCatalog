@@ -1,0 +1,146 @@
+<div class="container col px-md-5 overflow-hidden" style="position: absolute; margin-top: 1%; ">
+    <div class="row gy-5">
+        <div class="col-xl-7 col-md-5">
+            <form class="d-flex flex-row" [formGroup]="searchForm" (ngSubmit)="getSearchedProducts()">
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" formControlName="searchText" type="search"
+                            placeholder="Search by Name/Brand/Product Code" aria-label="Search"
+                            style="width:340px; border-radius:60px;"
+                            [ngClass]="{ 'is-invalid': submitted && f['searchText'].errors }">
+                        <div *ngIf="submitted && f['searchText'].errors" class="invalid-feedback"
+                            style="margin-left:20px;">
+                            <div *ngIf="f['searchText'].errors['required']">Search Field is required</div>
+                            <div *ngIf="f['searchText'].errors['pattern']">Entered Value is invalid</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-success " type="submit" style="border-radius: 60px;">
+                            Search</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-success " type="button" style="border-radius: 60px;"
+                            (click)="clearAll()">Clear</button>
+                    </div>
+                </div>
+            </form>
+            <div class="col">
+
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-3" *ngIf="checkUserLoggedIn()">
+            <select style="width:150px;" class="form-select form-select-sm" [(ngModel)]="selectedBrand"
+                (change)="searchByBrand()">
+                <option value="" disabled>Filter By Brands</option>
+                <option *ngFor="let brand of brands" [ngValue]="brand">
+                    {{brand}}
+                </option>
+            </select>
+        </div>
+        <div class="col-xl-3 col-md-4" *ngIf="checkUserLoggedIn()">
+            <button style="border-radius: 4px; height:30px; padding-top:0; padding-left:7px;" type="button"
+                class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <i class="fa fa-filter" aria-hidden="true"></i>
+                Price Filter
+            </button>
+        </div>
+    </div>
+</div>
+<section class="py-5" style="width:100%;height: 100%;">
+
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <!-- <ng-container *ngIf="(productList  | filter:selectedBrand | priceFilter: minRange: maxRange) as result">
+                <p>Count: <b>{{result.length}}</b></p> -->
+            <div class="col mb-5"
+                *ngFor="let product of productList  | filter:selectedBrand | priceFilter: minRange: maxRange">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <img class="card-img-top" alt="Product Image" src="{{product.productUrl}}" />
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{product.name}}</h5>
+                            <h6>Brand: {{product.brand}}</h6>
+                            <!-- Product price-->
+                            <!-- ₹{{product.price}} -->
+                            <div *ngIf="checkUserLoggedIn()">₹{{getPrice(product.productCode)}}</div>
+                            <!-- Product Id -->
+                            <p>Product Code: {{product.productCode}}</p>
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" *ngIf="checkUserLoggedIn()">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" (click)="Check()"
+                                routerLink="/view-product/{{product.productCode}}">More Details</a></div>
+                    </div>
+                </div>
+            </div>
+            <!-- </ng-container> -->
+        </div>
+    </div>
+    <div *ngIf="(productList  | filter:selectedBrand | priceFilter: minRange: maxRange)?.length === 0"
+        style="padding-left:38%;padding-top:5%;">
+        <img src="https://www.indiarefurb.com/assets/img/no-result-found.png" alt="No Results Found">
+    </div>
+</section>
+
+<!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Filter By Price</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="priceRangeForm">
+                    <input type="number" class="form-control" formControlName="minVal" placeholder="Min Range" min="0"
+                        oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null"
+                        [(ngModel)]="minVal">
+                    <br> &nbsp; To
+                    <input type="number" class="form-control" formControlName="maxVal" placeholder="Max Range"
+                        [(ngModel)]="maxVal" min="0"
+                        oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" (click)="getPriceValues()" data-bs-dismiss="modal" class="btn btn-primary">Apply
+                    Filter</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Filter By Price</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="priceRangeForm">
+                    <input type="number" class="form-control" formControlName="minVal" placeholder="Min Range" min="0"
+                        oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null"
+                        [(ngModel)]="minVal"><small *ngIf="isMinValPresent()" style="color:blue;">Entered Value: {{showMinVal}}</small>
+                    <br> &nbsp; To
+                    <input type="number" class="form-control" formControlName="maxVal" placeholder="Max Range"
+                        [(ngModel)]="maxVal" min="0"
+                        oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null">
+                        <small *ngIf="isMaxValPresent()" style="color:blue;">Entered Value: {{showMaxVal}}</small>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="clearPriceFilter()" class="btn btn-secondary">Clear</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" (click)="getPriceValues()" data-bs-dismiss="modal" class="btn btn-primary">Apply
+                    Filter</button>
+            </div>
+        </div>
+    </div>
+</div>

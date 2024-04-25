@@ -1,0 +1,27 @@
+<div class="login-box">
+    <h2>Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="loginNow()">
+        <div class="user-box" style="padding-bottom:10px;">
+            <input type="text" name="" formControlName="email" required=""
+                [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" [(ngModel)]="user.username">
+            <label>Email Id</label>
+            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback" style="margin-top:-8%;">
+                <div *ngIf="f['email'].errors['required']">Email is required</div>
+                <div *ngIf="f['email'].errors['pattern']">Email is invalid</div>
+            </div>
+        </div>
+        <div class="user-box">
+            <input type="password" name="" formControlName="password" required=""
+                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" [(ngModel)]="user.password">
+            <label>Password</label>
+            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback" style="margin-top:-8%;">
+                <div *ngIf="f['password'].errors['required']">Password is required</div>
+                <div *ngIf="f['password'].errors['pattern']">Empty Space is not allowed</div>
+            </div>
+        </div>
+        <small>Don't have an account yet? <a routerLink="/sign-up">SignUp</a></small>
+        <button class="login-button">
+            Submit
+        </button>
+    </form>
+</div>

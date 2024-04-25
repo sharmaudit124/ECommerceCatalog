@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="signUp-box col-12">
+        <h2>Sign Up</h2>
+        <form [formGroup]="signUpForm" (ngSubmit)="registerNow()">
+            <div class="user-box col-12" style="padding-bottom:10px;">
+
+                <input type="text" name="" formControlName="email" required=""
+                    [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+                    [(ngModel)]="user.username">
+                <label>Email Id</label>
+                <div *ngIf="submitted && f['email'].errors" class="invalid-feedback" style="margin-top:-6%;">
+                    <div *ngIf="f['email'].errors['required']">Email is required</div>
+                    <div *ngIf="f['email'].errors['pattern']">Email is invalid</div>
+                </div>
+
+            </div>
+            <div class="row" style="padding-bottom:10px;">
+
+                <div class="user-box col-6">
+                    <input type="text" name="" formControlName="firstName" required=""
+                        [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }"
+                        [(ngModel)]="user.firstName" />
+                    <label>First name</label>
+                    <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback" style="margin-top:-11%;">
+                        <div *ngIf="f['firstName'].errors['required']">First Name is required</div>
+                        <div *ngIf="f['firstName'].errors['pattern']">First Name is invalid</div>
+                    </div>
+                </div>
+                <div class="user-box col-6">
+                    <input type="text" name="" formControlName="lastName" required=""
+                        [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }"
+                        [(ngModel)]="user.lastName">
+                    <label>Last name</label>
+                    <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback" style="margin-top:-11%;">
+                        <div *ngIf="f['lastName'].errors['required']">Last Name is required</div>
+                        <div *ngIf="f['lastName'].errors['pattern']">Last Name is invalid</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" style="padding-bottom:10px;">
+
+                <div class="user-box col-6">
+                    <input type="password" name="" formControlName="password" required=""
+                        [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                        [(ngModel)]="user.password">
+                    <label>Password</label>
+                    <div *ngIf="submitted && f['password'].errors" class="invalid-feedback" style="margin-top:-11%;">
+                        <div *ngIf="f['password'].errors['required']">Password is required</div>
+                        <div *ngIf="f['password'].errors['pattern']">Empty Space is not allowed</div>
+                    </div>
+                </div>
+                <div class="user-box col-6">
+                    <input type="password" name="" formControlName="confirmPass" required=""
+                        [ngClass]="{ 'is-invalid': submitted && f['confirmPass'].errors }">
+                    <label>Confirm Password</label>
+                    <div *ngIf="submitted && f['confirmPass'].errors" class="invalid-feedback" style="margin-top:-11%;">
+                        <div *ngIf="f['confirmPass'].errors['required']">Confirm Password is required</div>
+                        <div *ngIf="f['confirmPass'].errors['pattern']">Empty Space is not allowed</div>
+                        <div *ngIf="f['confirmPass'].errors['matching']">Confirm Password does not match</div>
+                    </div>
+                </div>
+
+            </div>
+            <small>Already have an account? <a routerLink="/login">Sign In</a></small>
+            <button type="submit" class="login-button">
+                Submit
+            </button>
+        </form>
+    </div>
+</div>

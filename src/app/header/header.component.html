@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #189AB4; height:60px;">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand">
+            <img src="https://static.thenounproject.com/png/1890456-200.png" alt="Product Catalog"
+            height="40px" width="40px">
+        </a>
+        <a class="navbar-brand">Product-Catalog</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="" (click)="goToHome()">
+                    <img src="https://freepngimg.com/thumb/home/11-2-home-picture.png" 
+                    height="40px" width="60px" alt="Home">
+                </a></li>
+            </ul>
+            <form class="d-flex" *ngIf="checkUserLoggedIn()">
+                <button class="btn btn-outline-dark" type="submit"
+                style="width: 110px;" (click)="logOut()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-forward-fill" viewBox="0 0 16 16">
+                    <path d="m9.77 12.11 4.012-2.953a.647.647 0 0 0 0-1.114L9.771 5.09a.644.644 0 0 0-.971.557V6.65H2v3.9h6.8v1.003c0 .505.545.808.97.557z"/>
+                  </svg>
+                    Logout
+                </button>
+            </form>
+            <form class="d-flex" *ngIf="!checkUserLoggedIn()">
+                <button class="btn btn-outline-dark" type="submit"
+                style="width: 110px;" (click)="logIn()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                  </svg>
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>

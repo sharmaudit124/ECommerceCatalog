@@ -1,0 +1,67 @@
+<!-- Content section-->
+<section class="py">
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-4">
+                <div class="text-center">
+                    <div class="text-center" style="margin-top:10%;">
+                        <img class="rounded" alt="Product Image" height="200px" width="250px"
+                            src="{{singleProductData.productUrl}}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h2>{{singleProductData.name}}</h2>
+                <hr>
+                <h4>{{singleProductData.brand}}</h4>
+                <h6>{{singleProductData.productCode}}</h6>
+                <br>
+                <p class="mb-0">{{singleProductData.description}}</p>
+                <hr>
+                <p class="lead">₹{{productPrice}}</p>
+            </div>
+            <div class="col-lg-4">
+                <p class="lead" style="padding-top:10px;">Check Your delivery service</p>
+                <hr>
+                <form [formGroup]="pinForm" (ngSubmit)="getPinCodeDetails()">
+                    <label class="form-label">PinCode</label>
+                    <input type="text" formControlName="pinCode" class="form-control" placeholder="Enter Pin Code"
+                        [ngClass]="{ 'is-invalid': submitted && f['pinCode'].errors }" style="border-radius:20px;"
+                        min="0">
+                    <div *ngIf="submitted && f['pinCode'].errors" class="invalid-feedback">
+                        <div *ngIf="f['pinCode'].errors['required']">This is Required Field.</div>
+                        <div *ngIf="f['pinCode'].errors['pattern']">Invalid Input Entered.</div>
+                        <div *ngIf="f['pinCode'].errors['minlength']">
+                            Pin-Code must be at least 5 digits.
+                        </div>
+                        <div *ngIf="f['pinCode'].errors['maxlength']">
+                            Pin-Code must not exceed 7 digits.
+                        </div>
+                    </div>
+                    <div id="passwordHelpBlock" class="form-text">
+                        Your Pin Code must be 5-7 characters long, containing numbers only.
+                    </div>
+                    <br>
+                    <button class="btn btn-outline-dark" type="submit"
+                        style="width: 80px; border-radius: 20px;margin-right: 80px;">
+                        Find
+                    </button>
+                    <button class="btn btn-outline-dark" type="button"
+                        style="width: 80px; border-radius: 20px;margin-right: 80px;" (click)="clearValues()">
+                        Clear
+                    </button>
+                    <hr style="margin-top:20px;">
+                    <span *ngIf="notFound" style="color:red;">{{pinCodeMessage}}</span>
+                    <span *ngIf="found" style="color:green;">{{pinCodeMessage}}</span>
+                </form>
+                <div>
+                    <a routerLink="/product-home" ><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+                    </svg></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
